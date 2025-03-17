@@ -107,6 +107,7 @@ function check_prerequisites()
       blkid
       e2label
       jq
+      e2fsck
   )
 
   for cmd in "${cmds[@]}"; do

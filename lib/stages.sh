@@ -228,6 +228,7 @@ function copy_original_to_copy(){
 
   # this is giving the copied root another UUID to prevent clash with orig
   {
+    e2fsck -f ${LOOP_COPY}p2 -p
     tune2fs ${LOOP_COPY}p2 -U ${UUID_COPY_ROOTFS}
   } | pr_section "setting the stuff"
 
@@ -542,10 +543,12 @@ function copy_to_restore(){
   # echo $LOOP_RESTORE
 
   # reset the UUID to avoid clash with the source partition
+  e2fsck -f ${LOOP_RESTORE}p2 -p
   tune2fs ${LOOP_RESTORE}p2 -U ${UUID_RESTORE}
   e2label ${LOOP_RESTORE}p2 recoveryfs
 
   # reset UUID
+  e2fsck -f ${LOOP_RESTORE}p3 -p
   tune2fs ${LOOP_RESTORE}p3 -U ${UUID_ROOTFS}
   e2label ${LOOP_RESTORE}p3 rootfs
 
